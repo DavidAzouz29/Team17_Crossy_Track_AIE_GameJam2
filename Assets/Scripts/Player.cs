@@ -31,13 +31,14 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-#if UNITY_ANDROID
+        //TODO: cleanup
+//#if UNITY_ANDROID
         if (Input.GetButtonDown("Fire1"))
         {
             gameObject.transform.Translate(iMovement, 0, 0);
             gameObject.transform.Rotate(Mathf.Lerp(0, 20, Time.deltaTime), 0, 0);
         }
-#endif
+//#endif
         if (isTrainComing)
         {
             Handheld.Vibrate();

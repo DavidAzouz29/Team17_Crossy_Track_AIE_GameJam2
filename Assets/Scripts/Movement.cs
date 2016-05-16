@@ -1,6 +1,7 @@
 ﻿/// <summary>
 /// viewed: http://forum.unity3d.com/threads/swipe-help-please.48601/
 /// http://answers.unity3d.com/questions/35803/touch-screen-horizontal-or-vertical-swipe.html
+/// http://docs.unity3d.com/ScriptReference/MonoBehaviour.StartCoroutine.html
 /// </summary>
 
 using UnityEngine;
@@ -9,7 +10,8 @@ using System.Collections;
 public class Movement : MonoBehaviour
 {
     // PUBLIC VARIABLES
-    public int iMovement = 1;
+    public int iMovement = 8;
+    public float fRot = 0f;
     //public Animation c_CharacterMovementAnimation;
 
     // PRIVATE VARIABLES
@@ -100,8 +102,11 @@ public class Movement : MonoBehaviour
             float swipeTime = Time.time - swipeStartTime; //Time the touch stayed at the screen till now.
             float swipeDist = Mathf.Abs(touchPos.x - startPos.x); //Swipe distance
 
-           // Debug.LogFormat("Swipe: Time: {0} Dist: {1} Start: {2}", swipeTime, swipeDist, swipeStartTime);
+            // Debug.LogFormat("Swipe: Time: {0} Dist: {1} Start: {2}", swipeTime, swipeDist, swipeStartTime);
 
+            fRot += Time.deltaTime;
+            Vector3 v3FuturePos = gameObject.transform.position;
+            v3FuturePos.x = gameObject.transform.position.x + iMovement;
             // if we swipe...
             if (couldBeSwipe && swipeTime < maxSwipeTime && swipeDist > minSwipeDist)
             {
@@ -112,16 +117,21 @@ public class Movement : MonoBehaviour
                 if (Mathf.Sign(touchPos.x - startPos.x) == 1f)
                 {
                     //Right-swipe
-                    gameObject.transform.Translate(iMovement, 0, 0);
-                    gameObject.transform.Rotate(Mathf.Lerp(0, 1, Time.deltaTime), 0, 0);
+                    //gameObject.transform.Translate(iMovement, 0, 0);
+                    //gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + iMovement, fRot), 0, 0);
+                    gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position + v3FuturePos, fRot);
+                    gameObject.transform.Rotate(Mathf.Lerp(0, 40, fRot), 0, 0);
+                    //gameObject.transform.Rotate(Mathf.Sin(Time.deltaTime)), 0, 0);
                     //c_CharacterMovementAnimation.Play();
                     Debug.Log("Right");
                 }
                 else
                 {
                     //Left-swipe
-                    gameObject.transform.Translate(-iMovement, 0, 0);
-                    gameObject.transform.Rotate(Mathf.Lerp(0, -1, Time.deltaTime), 0, 0);
+                    //gameObject.transform.Translate(-iMovement, 0, 0);
+                    //gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + -iMovement, fRot), 0, 0);
+                    gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position - v3FuturePos, fRot);
+                    gameObject.transform.Rotate(Mathf.Lerp(0, -40, fRot), 0, 0);
                     //c_CharacterMovementAnimation.Play();
                     Debug.Log("Left");
                 }
@@ -132,3 +142,26 @@ public class Movement : MonoBehaviour
     }
 //#endif
 }
+
+/*
+
+  //Swipe-direction, either 1 or -1.
+  if (Mathf.Sign(touchPos.x - startPos.x) == 1f)
+  {
+      //Right-swipe
+      gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + iMovement, Time.deltaTime), 0, 0);
+      //gameObject.transform.Rotate(Mathf.Lerp(0, 40, fRot), 0, 0);
+      gameObject.transform.Rotate(Mathf.Sin(Time.deltaTime), 0, 0);
+      //c_CharacterMovementAnimation.Play();
+      Debug.Log("Right");
+  }
+  else
+  {
+      //Left-swipe
+      gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x - iMovement, Time.deltaTime), 0, 0);
+      //gameObject.transform.Rotate(Mathf.Lerp(0, -40, fRot), 0, 0);
+      gameObject.transform.Rotate(-Mathf.Sin(Time.deltaTime), 0, 0);
+      //c_CharacterMovementAnimation.Play();
+      Debug.Log("Left");
+  }
+*/
