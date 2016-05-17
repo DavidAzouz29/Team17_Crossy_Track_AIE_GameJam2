@@ -19,7 +19,7 @@ public class TrainManager : MonoBehaviour {
     float currentTime;
     public float timeBetweenTrains;
     public GameObject baseTrain;
-    //public GameObject warningSign;
+    public GameObject warningSign;
     public Sprite c_WarningSign;
     // Use this for initialization
     void Start () {
@@ -56,7 +56,7 @@ public class TrainManager : MonoBehaviour {
         for (int i = 0; i < 3; ++i)
         {
             //instantiate warning --TODO
-            //warningSign.SetActive(true);
+            warningSign.SetActive(true);
             //c_WarningSign
             yield return new WaitForSeconds(1);
             
