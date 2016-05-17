@@ -67,7 +67,7 @@ public class TrainManager : MonoBehaviour {
         }
 
 
-        Vector3 trainPos = new Vector3(-20+8.71f * nextTrainsTrack, 0, 280);
+        Vector3 trainPos = new Vector3(-5.58f+8.71f * nextTrainsTrack, 0, 280);
         Debug.Log(trainPos);
         Quaternion Rotation = new Quaternion(0, 0, 0, 0);
         Instantiate(baseTrain, trainPos, Rotation);
