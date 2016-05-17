@@ -6,11 +6,6 @@ public class Score : MonoBehaviour
 {
     public Text r_text;
     public float fTimePassed;
-    // Use this for initialization
-    void Start ()
-    {
-	
-	}
 	
 	// Update is called once per frame
 	void Update ()

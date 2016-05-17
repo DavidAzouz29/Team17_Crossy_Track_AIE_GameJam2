@@ -17,7 +17,7 @@ public class train : MonoBehaviour {
     bool change;
     int track;
     public float speed;
-    public GameObject Engine;
+    public GameObject Engine; //TODO: ?
     public GameObject main;
     // Use this for initialization
     void Start ()
