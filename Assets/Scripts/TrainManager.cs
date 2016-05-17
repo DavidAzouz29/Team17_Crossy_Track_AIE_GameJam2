@@ -29,20 +29,14 @@ public class TrainManager : MonoBehaviour {
         t4 = true;
         t5 = true;
         currentTime = 0;
+        Debug.Log("Point one");
 	}
 	
 	// Update is called once per frame
-	/*void Update () {
+	void Update () {
         // if the level is higher than 2
-	    if (gameObject.GetComponent<levelManager>().currentLevel>2)
-        {
-            numberOfActiveTracks = 4;
-        }
-        // if the level is higher than 5
-        if (gameObject.GetComponent<levelManager>().currentLevel > 5)
-        {
-            numberOfActiveTracks = 5;
-        }
+        Debug.Log("Update one");
+
 
         currentTime += Time.deltaTime;
         //if the current time is higher than the time set between trains.
@@ -50,7 +44,7 @@ public class TrainManager : MonoBehaviour {
         {
             int nextTrainsTrack = Random.Range(1, numberOfActiveTracks+1);
             currentTime = 0.0f;
-
+            Debug.Log(nextTrainsTrack);
             StartCoroutine(warning(nextTrainsTrack));
 
 
@@ -61,7 +55,7 @@ public class TrainManager : MonoBehaviour {
 
         }
 
-    } */
+    }
     private IEnumerator warning(int nextTrainsTrack)
     {
         for (int i = 0; i < 3; ++i)
@@ -73,11 +67,11 @@ public class TrainManager : MonoBehaviour {
         }
 
 
-        Vector3 trainPos = new Vector3(25 * nextTrainsTrack, 0, 0);
+        Vector3 trainPos = new Vector3(-20+8.71f * nextTrainsTrack, 0, 280);
         Debug.Log(trainPos);
         Quaternion Rotation = new Quaternion(0, 0, 0, 0);
         Instantiate(baseTrain, trainPos, Rotation);
-        
+        Debug.Log("We got here");
         yield break;
     }
 }

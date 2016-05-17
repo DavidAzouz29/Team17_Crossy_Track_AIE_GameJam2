@@ -18,10 +18,11 @@ public class train : MonoBehaviour {
     int track;
     public float speed;
     public GameObject Engine;
+    public GameObject main;
     // Use this for initialization
     void Start ()
     {
-
+        main = GameObject.FindGameObjectWithTag("MainCamera");
         Handheld.Vibrate();
 	}
 
@@ -33,11 +34,12 @@ public class train : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        Debug.Log("Update one2");
         // just moves the train forward
-            gameObject.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        gameObject.transform.Translate(Vector3.back * speed * Time.deltaTime);
 
         //deletes trains when they have gone off screen
-        if (gameObject.transform.position.z> 115)
+        if (gameObject.transform.position.z< main.transform.position.z-280)
         {
 
             Destroy(gameObject);

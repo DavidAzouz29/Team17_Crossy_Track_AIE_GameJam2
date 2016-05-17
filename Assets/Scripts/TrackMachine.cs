@@ -52,10 +52,10 @@ public class TrackMachine : MonoBehaviour
 
             // create 'x' number of tracks based off sTrackNumber.
             // at the end on a track.
-            for (short j = 0; j < sTrackNumber; ++j)
+            for (short j = 0; j < 10; ++j)
             {
                 //Length
-                Vector3 v3TrackPosLong = new Vector3(i * fTrackWidth, 0, j * fTrackLength);
+                Vector3 v3TrackPosLong = new Vector3(-20+i * fTrackWidth, -4.5f, j * fTrackLength);
                 Instantiate(c_TrackStraight, v3TrackPosLong + v3TrackPosWide * j, qRotation);
             }
 
