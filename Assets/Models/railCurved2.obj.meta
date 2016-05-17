@@ -7,11 +7,16 @@ ModelImporter:
   fileIDToRecycleName:
     100000: pCube106
     100002: //RootNode
+    100004: railCurved3:pCube106
     400000: pCube106
     400002: //RootNode
+    400004: railCurved3:pCube106
     2300000: pCube106
+    2300002: railCurved3:pCube106
     3300000: pCube106
+    3300002: railCurved3:pCube106
     4300000: pCube106
+    4300002: railCurved3:pCube106
   materials:
     importMaterials: 1
     materialName: 0
