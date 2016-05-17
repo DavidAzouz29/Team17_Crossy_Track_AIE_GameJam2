@@ -16,7 +16,6 @@ public class Movement : MonoBehaviour
     public float fMovement = 8.4f;
     [Header("Time for Lerping")]
     public float fRot = 0f;
-    public const float fSpeed = 4f;
     public Animator c_CharacterMovement;
 
     // PRIVATE VARIABLES
@@ -45,12 +44,6 @@ public class Movement : MonoBehaviour
     void Start()
     {
         StartCoroutine(CheckHorizontalSwipes());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     IEnumerator CheckHorizontalSwipes() //Coroutine, which gets Started in "Start()" and runs over the whole game to check for swipes
@@ -115,7 +108,6 @@ public class Movement : MonoBehaviour
             // Debug.LogFormat("Swipe: Time: {0} Dist: {1} Start: {2}", swipeTime, swipeDist, swipeStartTime);
 
             fRot += Time.deltaTime;
-            //v3FuturePos = gameObject.transform.position; //new Vector3(-3, -4.92f, -9.6f); //
 
             // if we swipe...
             if (couldBeSwipe && swipeTime < maxSwipeTime && swipeDist > minSwipeDist)
@@ -127,15 +119,10 @@ public class Movement : MonoBehaviour
                 if (Mathf.Sign(touchPos.x - startPos.x) == 1f)
                 {
                     //----------Right-swipe----------
-                    //gameObject.transform.Translate(fMovement, 0, 0);
-                    //gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + fMovement, fRot), 0, 0);
                     isRight = true;
                     Invoke("MoveRight", 1);
-                    v3FuturePos.x = gameObject.transform.position.x + fMovement;
-                    //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position + v3FuturePos, fRot);
-                    //gameObject.transform.position += v3FuturePos;
+                    v3FuturePos.x = gameObject.transform.localPosition.x + fMovement;
                     c_CharacterMovement.CrossFade("LeanRight", 0.3f);
-                    //c_CharacterMovementAnimation.Play();
                     Debug.Log("Right");
                 }
                 else
@@ -143,14 +130,8 @@ public class Movement : MonoBehaviour
                     //----------Left-swipe----------
                     isLeft = true;
                     Invoke("MoveLeft", 1);
-                    v3FuturePos.x = gameObject.transform.position.x - fMovement;
-                    //gameObject.transform.Translate(-fMovement, 0, 0);
-                    ////gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + -fMovement, fRot), 0, 0);
-                    //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position - v3FuturePos, fRot);
-                    // gameObject.transform.position -= v3FuturePos;
+                    v3FuturePos.x = gameObject.transform.localPosition.x - fMovement;
                     c_CharacterMovement.CrossFade("LeanLeft", 0.3f);
-                    //gameObject.transform.Rotate(Mathf.Lerp(gameObject.transform, -40, fRot), 0, 0);
-                    //c_CharacterMovementAnimation.Play();
                     Debug.Log("Left");
                 }
                 fRot = 0;
@@ -158,7 +139,7 @@ public class Movement : MonoBehaviour
 
             if(isRight || isLeft)
             {
-                gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, v3FuturePos, fRot);
+                gameObject.transform.localPosition = Vector3.Lerp(gameObject.transform.localPosition, v3FuturePos, fRot);
             }
 
             yield return null;

@@ -15,34 +15,29 @@
 /// -------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MonoBehaviour
 {
     public bool isTrainComing = false;
     public int iMovement = 10;
-	// Use this for initialization
-	void Start ()
+    public int iTimeBeforeGameOver = 2;
+    public GameObject c_GameOverPanel;
+    public Animator c_GameOverText;
+    public Animator c_CharacterMovement;
+
+    // Use this for initialization
+    /*void Start ()
     {
-	
-	}
+        //c_GameOverPanel.GetComponent<>
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        //TODO: cleanup
-//#if UNITY_ANDROID
-        if (Input.GetButtonDown("Fire1"))
-        {
-            gameObject.transform.Translate(iMovement, 0, 0);
-            gameObject.transform.Rotate(Mathf.Lerp(0, 20, Time.deltaTime), 0, 0);
-        }
-//#endif
-        if (isTrainComing)
-        {
-            Handheld.Vibrate();
-        }
-    }
+       
+    } */
 
     void OnGUI()
     {
@@ -51,5 +46,19 @@ public class Player : MonoBehaviour
             Handheld.Vibrate();
             
         }
+    }
+    void OnCollisionEnter(Collider other)
+    {
+        if (other.transform.tag == "Train")
+        {
+            Invoke("GameOver", iTimeBeforeGameOver);
+            c_CharacterMovement.CrossFade("Death", 1);
+        }
+    }
+
+    void GameOver()
+    {
+        c_GameOverPanel.SetActive(true);
+        c_GameOverText.Play("GameOverText");
     }
 }
