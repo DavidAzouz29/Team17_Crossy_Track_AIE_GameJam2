@@ -38,10 +38,10 @@ public class Player : MonoBehaviour
     void OnGUI()
     {
         // Test vibration
-        if (GUI.Button(new Rect(0, 50, 1000, 320), "Vibrate!"))
-        {
-            Handheld.Vibrate();
-        }
+//        if (GUI.Button(new Rect(0, 50, 1000, 320), "Vibrate!"))
+//        {
+//            Handheld.Vibrate();
+//        }
         //TODO: remove once testing is complete
         /*if (GUI.Button(new Rect(0, Screen.height - 50, 100, 32), "Die"))
         {
@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
         c_CharacterMovement.CrossFade("Death", 1);
         c_DeathSound.Play();
 #if UNITY_ANDROID
-        Handheld.Vibrate();
+//        Handheld.Vibrate();
 #endif
     }
 
