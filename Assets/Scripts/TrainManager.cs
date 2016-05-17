@@ -20,6 +20,7 @@ public class TrainManager : MonoBehaviour {
     public float timeBetweenTrains;
     public GameObject baseTrain;
     public GameObject warningSign;
+    public Sprite c_WarningSign;
     // Use this for initialization
     void Start () {
         t1 = false;
@@ -46,13 +47,7 @@ public class TrainManager : MonoBehaviour {
             currentTime = 0.0f;
             Debug.Log(nextTrainsTrack);
             StartCoroutine(warning(nextTrainsTrack));
-
-
-
-
-
             
-
         }
 
     }
@@ -61,13 +56,14 @@ public class TrainManager : MonoBehaviour {
         for (int i = 0; i < 3; ++i)
         {
             //instantiate warning --TODO
+            warningSign.SetActive(true);
+            //c_WarningSign
             yield return new WaitForSeconds(1);
             
             
         }
 
-
-        Vector3 trainPos = new Vector3(-5.58f+8.71f * nextTrainsTrack, 0, 280);
+        Vector3 trainPos = new Vector3(-2.9f+8.71f * nextTrainsTrack, 0, 280);
         Debug.Log(trainPos);
         Quaternion Rotation = new Quaternion(0, 0, 0, 0);
         Instantiate(baseTrain, trainPos, Rotation);
