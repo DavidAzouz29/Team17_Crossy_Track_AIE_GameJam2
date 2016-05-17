@@ -22,18 +22,12 @@ public class Player : MonoBehaviour
 {
     //public bool isTrainComing = false;
     //public int iMovement = 10;
-    public float fTimeBeforeGameOver = 1;
+    public float fTimeBeforeGameOver = 0.90f;
     public GameObject c_GameOverPanel;
     public Animator c_GameOverText;
     public Animator c_CharacterMovement;
     public Button c_PauseButton;
     public AudioSource c_DeathSound;
-
-    //TODO: test Death
-    void Update()
-    {
-        Invoke("Death", 3);
-    }
 
     void OnGUI()
     {
@@ -52,10 +46,17 @@ public class Player : MonoBehaviour
     {
         if (other.transform.tag == "Train")
         {
-            Debug.Log("Player: BANG!");
             Death();
         }
     }
+
+    void GameOver()
+    {
+        c_GameOverPanel.SetActive(true);
+        c_GameOverText.Play("GameOverText");
+        c_PauseButton.interactable = false;
+    }
+
     // What happens when the player dies/ gets hit by a train
     public void Death()
     {
@@ -63,17 +64,7 @@ public class Player : MonoBehaviour
         c_CharacterMovement.CrossFade("Death", 1);
         c_DeathSound.Play();
 #if UNITY_ANDROID
-        Handheld.Vibrate();
+            Handheld.Vibrate();
 #endif
     }
-
-    // Appears after 'x' seconds
-    void GameOver()
-    {
-        c_GameOverPanel.SetActive(true);
-        c_GameOverText.Play("GameOverText");
-        c_PauseButton.interactable = false;
-        Time.timeScale = 0;
-    }
-
 }
