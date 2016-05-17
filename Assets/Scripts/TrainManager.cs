@@ -29,7 +29,7 @@ public class TrainManager : MonoBehaviour {
 
         t4 = true;
         t5 = true;
-        currentTime = 0;
+		currentTime = timeBetweenTrains - 0.1f;
         Debug.Log("Point one");
 	}
 	
