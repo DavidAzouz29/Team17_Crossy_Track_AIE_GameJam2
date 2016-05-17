@@ -2,6 +2,7 @@
 /// viewed: http://forum.unity3d.com/threads/swipe-help-please.48601/
 /// http://answers.unity3d.com/questions/35803/touch-screen-horizontal-or-vertical-swipe.html
 /// http://docs.unity3d.com/ScriptReference/MonoBehaviour.StartCoroutine.html
+/// http://itween.pixelplacement.com/documentation.php
 /// </summary>
 
 using UnityEngine;
@@ -12,9 +13,11 @@ public class Movement : MonoBehaviour
     // PUBLIC VARIABLES
     [Header("Health Settings")]
     [Tooltip("Movement Interval.")]
-    public float fMovement = 8.5f;
+    public float fMovement = 8.4f;
+    [Header("Time for Lerping")]
     public float fRot = 0f;
-    //public Animation c_CharacterMovementAnimation;
+    public const float fSpeed = 4f;
+    public Animator c_CharacterMovement;
 
     // PRIVATE VARIABLES
     private float swipeStartTime;
@@ -22,6 +25,21 @@ public class Movement : MonoBehaviour
     private bool couldBeSwipe;
     private float minSwipeDist = 10;
     private float maxSwipeTime = 0.3f;
+
+    // -----------------------------------
+    // Touch Swipe Controls
+    // -----------------------------------
+    bool hasTouch;
+    bool touchBegan;
+    Vector2 touchPos;
+
+    float swipeTime;
+    float swipeDist;
+
+    Vector3 v3FuturePos;
+
+    bool isRight;
+    bool isLeft;
 
     // Use this for initialization
     void Start()
@@ -32,20 +50,20 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // #elif UNITY_STANDALONE || UNITY_EDITOR
-        //UNITY_ANDROID
+        
     }
 
-    //#if !UNITY_STANDALONE || !UNITY_EDITOR
     IEnumerator CheckHorizontalSwipes() //Coroutine, which gets Started in "Start()" and runs over the whole game to check for swipes
     {
-        //Loop. Otherwise we wouldnt check continoulsy ;-)
+        //Loop. Otherwise we wouldnt check continoulsy
         while (true)
         {
-            bool hasTouch = false;
-            bool touchBegan = false;
-            Vector2 touchPos = Vector2.zero;
+            hasTouch = false;
+            touchBegan = false;
+            touchPos = Vector2.zero;
 
+            //If not PC/ Mac/ Linux i.e. Android
+#if !UNITY_STANDALONE || !UNITY_EDITOR
             //For every touch in the Input.touches - array...
             foreach (Touch touch in Input.touches)
             {
@@ -57,7 +75,7 @@ public class Movement : MonoBehaviour
                         touchPos = touch.position;
                         break;
 
-                    case TouchPhase.Stationary:
+                    case TouchPhase.Stationary: //couldBeSwipe = false;
                     case TouchPhase.Moved:
                         hasTouch = true;
                         touchBegan = false;
@@ -65,12 +83,12 @@ public class Movement : MonoBehaviour
                         break;
 
                     default:
-                        touchPos = Vector2.zero;
                         hasTouch = false;
+                        touchPos = Vector2.zero;
                         break;
                 }
             }
-
+#elif UNITY_STANDALONE || UNITY_EDITOR
             if (Input.GetMouseButtonDown(0))
             {
                 hasTouch = true;
@@ -82,7 +100,7 @@ public class Movement : MonoBehaviour
                 hasTouch = true;
                 touchPos = Input.mousePosition;
             }
-
+#endif
             if (hasTouch && touchBegan)
             {
                 //The finger first touched the screen --> It could be(come) a swipe
@@ -90,25 +108,14 @@ public class Movement : MonoBehaviour
                 startPos = touchPos;  //Position where the touch started
                 swipeStartTime = Time.time; //The time it started
             }
-            //Is the touch stationary? --> No swipe then!
-            /*case TouchPhase.Stationary:
-                couldBeSwipe = false;
-                break; 
 
-            default:
-                {
-                    Debug.Log("Movement Error");
-                    break;
-                } */
-
-            float swipeTime = Time.time - swipeStartTime; //Time the touch stayed at the screen till now.
-            float swipeDist = Mathf.Abs(touchPos.x - startPos.x); //Swipe distance
+            swipeTime = Time.time - swipeStartTime; //Time the touch stayed at the screen till now.
+            swipeDist = Mathf.Abs(touchPos.x - startPos.x); //Swipe distance
 
             // Debug.LogFormat("Swipe: Time: {0} Dist: {1} Start: {2}", swipeTime, swipeDist, swipeStartTime);
 
             fRot += Time.deltaTime;
-            Vector3 v3FuturePos = new Vector3(fMovement, 0,0); //gameObject.transform.position;
-            //v3FuturePos.x = gameObject.transform.position.x + fMovement;
+            //v3FuturePos = gameObject.transform.position; //new Vector3(-3, -4.92f, -9.6f); //
 
             // if we swipe...
             if (couldBeSwipe && swipeTime < maxSwipeTime && swipeDist > minSwipeDist)
@@ -119,54 +126,52 @@ public class Movement : MonoBehaviour
                 //Swipe-direction, either 1 or -1.
                 if (Mathf.Sign(touchPos.x - startPos.x) == 1f)
                 {
-                    //Right-swipe
+                    //----------Right-swipe----------
                     //gameObject.transform.Translate(fMovement, 0, 0);
                     //gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + fMovement, fRot), 0, 0);
+                    isRight = true;
+                    Invoke("MoveRight", 1);
+                    v3FuturePos.x = gameObject.transform.position.x + fMovement;
                     //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position + v3FuturePos, fRot);
-                    gameObject.transform.position += v3FuturePos;
-                    //gameObject.transform.Rotate(Mathf.Lerp(0, 40, fRot), 0, 0);
-                    //gameObject.transform.Rotate(Mathf.Sin(Time.deltaTime)), 0, 0);
+                    //gameObject.transform.position += v3FuturePos;
+                    c_CharacterMovement.CrossFade("LeanRight", 0.3f);
                     //c_CharacterMovementAnimation.Play();
                     Debug.Log("Right");
                 }
                 else
                 {
-                    //Left-swipe
+                    //----------Left-swipe----------
+                    isLeft = true;
+                    Invoke("MoveLeft", 1);
+                    v3FuturePos.x = gameObject.transform.position.x - fMovement;
                     //gameObject.transform.Translate(-fMovement, 0, 0);
-                    //gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + -fMovement, fRot), 0, 0);
+                    ////gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + -fMovement, fRot), 0, 0);
                     //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position - v3FuturePos, fRot);
-                    gameObject.transform.position -= v3FuturePos;
-                    //gameObject.transform.Rotate(Mathf.Lerp(0, -40, fRot), 0, 0);
+                    // gameObject.transform.position -= v3FuturePos;
+                    c_CharacterMovement.CrossFade("LeanLeft", 0.3f);
+                    //gameObject.transform.Rotate(Mathf.Lerp(gameObject.transform, -40, fRot), 0, 0);
                     //c_CharacterMovementAnimation.Play();
                     Debug.Log("Left");
                 }
+                fRot = 0;
+            }
+
+            if(isRight || isLeft)
+            {
+                gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, v3FuturePos, fRot);
             }
 
             yield return null;
         }
     }
-//#endif
+
+    void MoveRight()
+    {
+        isRight = false;
+    }
+
+    void MoveLeft()
+    {
+        isLeft = false;
+    }
 }
-
-/*
-
-  //Swipe-direction, either 1 or -1.
-  if (Mathf.Sign(touchPos.x - startPos.x) == 1f)
-  {
-      //Right-swipe
-      gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + fMovement, Time.deltaTime), 0, 0);
-      //gameObject.transform.Rotate(Mathf.Lerp(0, 40, fRot), 0, 0);
-      gameObject.transform.Rotate(Mathf.Sin(Time.deltaTime), 0, 0);
-      //c_CharacterMovementAnimation.Play();
-      Debug.Log("Right");
-  }
-  else
-  {
-      //Left-swipe
-      gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x - fMovement, Time.deltaTime), 0, 0);
-      //gameObject.transform.Rotate(Mathf.Lerp(0, -40, fRot), 0, 0);
-      gameObject.transform.Rotate(-Mathf.Sin(Time.deltaTime), 0, 0);
-      //c_CharacterMovementAnimation.Play();
-      Debug.Log("Left");
-  }
-*/

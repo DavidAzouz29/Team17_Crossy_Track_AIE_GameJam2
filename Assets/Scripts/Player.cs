@@ -19,7 +19,6 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-
     public bool isTrainComing = false;
     public int iMovement = 10;
 	// Use this for initialization
@@ -47,7 +46,7 @@ public class Player : MonoBehaviour
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(0, 10, 100, 32), "Vibrate!"))
+        if (GUI.Button(new Rect(0, 10, 1000, 320), "Vibrate!"))
         {
             Handheld.Vibrate();
             
