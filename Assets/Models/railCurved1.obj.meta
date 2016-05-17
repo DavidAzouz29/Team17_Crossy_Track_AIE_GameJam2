@@ -1,22 +1,22 @@
 fileFormatVersion: 2
 guid: e8f4db0085ed13a4491f814637c4c05c
-timeCreated: 1463372429
+timeCreated: 1463459462
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: pCube107
-    100002: //RootNode
-    100004: railCurved2:pCube107
-    400000: pCube107
-    400002: //RootNode
-    400004: railCurved2:pCube107
-    2300000: pCube107
-    2300002: railCurved2:pCube107
-    3300000: pCube107
-    3300002: railCurved2:pCube107
-    4300000: pCube107
-    4300002: railCurved2:pCube107
+    100000: //RootNode
+    100002: railCurved2:pCube107
+    100004: railCurved3:pCube106
+    400000: //RootNode
+    400002: railCurved2:pCube107
+    400004: railCurved3:pCube106
+    2300000: railCurved2:pCube107
+    2300002: railCurved3:pCube106
+    3300000: railCurved2:pCube107
+    3300002: railCurved3:pCube106
+    4300000: railCurved2:pCube107
+    4300002: railCurved3:pCube106
   materials:
     importMaterials: 1
     materialName: 0
