@@ -23,7 +23,6 @@ public class train : MonoBehaviour {
     void Start ()
     {
         main = GameObject.FindGameObjectWithTag("MainCamera");
-        Handheld.Vibrate();
 	}
 
 	public void create(int a_track, bool a_change)
