@@ -10,7 +10,9 @@ using System.Collections;
 public class Movement : MonoBehaviour
 {
     // PUBLIC VARIABLES
-    public int iMovement = 8;
+    [Header("Health Settings")]
+    [Tooltip("Movement Interval.")]
+    public float fMovement = 8.5f;
     public float fRot = 0f;
     //public Animation c_CharacterMovementAnimation;
 
@@ -105,8 +107,9 @@ public class Movement : MonoBehaviour
             // Debug.LogFormat("Swipe: Time: {0} Dist: {1} Start: {2}", swipeTime, swipeDist, swipeStartTime);
 
             fRot += Time.deltaTime;
-            Vector3 v3FuturePos = gameObject.transform.position;
-            v3FuturePos.x = gameObject.transform.position.x + iMovement;
+            Vector3 v3FuturePos = new Vector3(fMovement, 0,0); //gameObject.transform.position;
+            //v3FuturePos.x = gameObject.transform.position.x + fMovement;
+
             // if we swipe...
             if (couldBeSwipe && swipeTime < maxSwipeTime && swipeDist > minSwipeDist)
             {
@@ -117,10 +120,11 @@ public class Movement : MonoBehaviour
                 if (Mathf.Sign(touchPos.x - startPos.x) == 1f)
                 {
                     //Right-swipe
-                    //gameObject.transform.Translate(iMovement, 0, 0);
-                    //gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + iMovement, fRot), 0, 0);
-                    gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position + v3FuturePos, fRot);
-                    gameObject.transform.Rotate(Mathf.Lerp(0, 40, fRot), 0, 0);
+                    //gameObject.transform.Translate(fMovement, 0, 0);
+                    //gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + fMovement, fRot), 0, 0);
+                    //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position + v3FuturePos, fRot);
+                    gameObject.transform.position += v3FuturePos;
+                    //gameObject.transform.Rotate(Mathf.Lerp(0, 40, fRot), 0, 0);
                     //gameObject.transform.Rotate(Mathf.Sin(Time.deltaTime)), 0, 0);
                     //c_CharacterMovementAnimation.Play();
                     Debug.Log("Right");
@@ -128,10 +132,11 @@ public class Movement : MonoBehaviour
                 else
                 {
                     //Left-swipe
-                    //gameObject.transform.Translate(-iMovement, 0, 0);
-                    //gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + -iMovement, fRot), 0, 0);
-                    gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position - v3FuturePos, fRot);
-                    gameObject.transform.Rotate(Mathf.Lerp(0, -40, fRot), 0, 0);
+                    //gameObject.transform.Translate(-fMovement, 0, 0);
+                    //gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + -fMovement, fRot), 0, 0);
+                    //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, gameObject.transform.position - v3FuturePos, fRot);
+                    gameObject.transform.position -= v3FuturePos;
+                    //gameObject.transform.Rotate(Mathf.Lerp(0, -40, fRot), 0, 0);
                     //c_CharacterMovementAnimation.Play();
                     Debug.Log("Left");
                 }
@@ -149,7 +154,7 @@ public class Movement : MonoBehaviour
   if (Mathf.Sign(touchPos.x - startPos.x) == 1f)
   {
       //Right-swipe
-      gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + iMovement, Time.deltaTime), 0, 0);
+      gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x + fMovement, Time.deltaTime), 0, 0);
       //gameObject.transform.Rotate(Mathf.Lerp(0, 40, fRot), 0, 0);
       gameObject.transform.Rotate(Mathf.Sin(Time.deltaTime), 0, 0);
       //c_CharacterMovementAnimation.Play();
@@ -158,7 +163,7 @@ public class Movement : MonoBehaviour
   else
   {
       //Left-swipe
-      gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x - iMovement, Time.deltaTime), 0, 0);
+      gameObject.transform.Translate(Mathf.Lerp(gameObject.transform.position.x, gameObject.transform.position.x - fMovement, Time.deltaTime), 0, 0);
       //gameObject.transform.Rotate(Mathf.Lerp(0, -40, fRot), 0, 0);
       gameObject.transform.Rotate(-Mathf.Sin(Time.deltaTime), 0, 0);
       //c_CharacterMovementAnimation.Play();
