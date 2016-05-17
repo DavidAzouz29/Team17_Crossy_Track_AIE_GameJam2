@@ -38,10 +38,10 @@ public class Player : MonoBehaviour
     void OnGUI()
     {
         // Test vibration
-        if (GUI.Button(new Rect(0, 50, 1000, 320), "Vibrate!"))
-        {
-            Handheld.Vibrate();
-        }
+//        if (GUI.Button(new Rect(0, 50, 1000, 320), "Vibrate!"))
+//        {
+//            Handheld.Vibrate();
+//        }
         //TODO: remove once testing is complete
         /*if (GUI.Button(new Rect(0, Screen.height - 50, 100, 32), "Die"))
         {
