@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Player: BANG!");
             Death();
-
         }
     }
     // What happens when the player dies/ gets hit by a train
@@ -55,6 +54,12 @@ public class Player : MonoBehaviour
         c_GameOverPanel.SetActive(true);
         c_GameOverText.Play("GameOverText");
         c_PauseButton.interactable = false;
+        Invoke("PauseTime", fTimeBeforeGameOver);
+    }
+    
+    // Pause game after animation plays out for score.
+    void PauseTime()
+    {
         Time.timeScale = 0;
     }
 }

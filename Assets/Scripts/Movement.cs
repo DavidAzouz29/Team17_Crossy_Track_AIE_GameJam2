@@ -22,18 +22,19 @@ public class Movement : MonoBehaviour
     public GameObject c_Position2;
     public GameObject c_Position3;
 
-    private const int iTrackNumer = 3; 
-
-    public float[] c_positions = new float[iTrackNumer];
+    private const int iTrackNumer = 3;
+    //public float[] c_positions = new float[iTrackNumer];
+    public float[] c_positions;
     public int fCurrentLocation = 1; // Zero based from our three locations
 
     // PRIVATE VARIABLES
+    // Mobile input
     private float swipeStartTime;
     private Vector2 startPos;
     private bool couldBeSwipe;
     private float minSwipeDist = 10;
     private float maxSwipeTime = 0.3f;
-    
+
     // -----------------------------------
     // Touch Swipe Controls
     // -----------------------------------
@@ -53,10 +54,10 @@ public class Movement : MonoBehaviour
     void Start()
     {
         StartCoroutine(CheckHorizontalSwipes());
-        c_positions[0] = c_Position1.transform.position.x;
-        c_positions[1] = c_Position2.transform.position.x;
-        c_positions[2] = c_Position3.transform.position.x;
-        Time.timeScale = 1; // this is for when we return from game over.
+        c_positions[0] = c_Position1.transform.localPosition.x;
+        c_positions[1] = c_Position2.transform.localPosition.x;
+        c_positions[2] = c_Position3.transform.localPosition.x;
+        Time.timeScale = 1; // this is for when we return from a Game Over
     }
 
     IEnumerator CheckHorizontalSwipes() //Coroutine, which gets Started in "Start()" and runs over the whole game to check for swipes
@@ -81,7 +82,9 @@ public class Movement : MonoBehaviour
                         touchPos = touch.position;
                         break;
 
-                    case TouchPhase.Stationary: //couldBeSwipe = false;
+                    case TouchPhase.Stationary:
+                        couldBeSwipe = false;
+                        continue;
                     case TouchPhase.Moved:
                         hasTouch = true;
                         touchBegan = false;
@@ -134,8 +137,12 @@ public class Movement : MonoBehaviour
                     //----------Right-swipe----------
                     isRight = true;
                     Invoke("MoveRight", 1);
-                    //v3FuturePos.x = gameObject.transform.localPosition.x + fMovement;
-                    v3FuturePos.x = c_positions[++fCurrentLocation];
+                    // if we're not on the right
+                    if (fCurrentLocation < 2)// && fCurrentLocation > 0)
+                    {
+                        fCurrentLocation += 1;
+                        v3FuturePos.x = c_positions[fCurrentLocation]; //TODO: fCurrentLocation++ || ++fCurrentLocation?
+                    }
                     c_CharacterMovement.CrossFade("LeanRight", 0.3f);
                     Debug.Log("Right");
                 }
@@ -144,16 +151,20 @@ public class Movement : MonoBehaviour
                     //----------Left-swipe----------
                     isLeft = true;
                     Invoke("MoveLeft", 1);
-                    //v3FuturePos.x = gameObject.transform.localPosition.x - fMovement;
-                    v3FuturePos.x = c_positions[--fCurrentLocation];
-                    //v3FuturePos.x = c_Position1.transform.position.x;
+                    // if we're not on the left
+                    if (fCurrentLocation > 0)
+                    {
+                        // move one to the left
+                        fCurrentLocation -= 1;
+                        v3FuturePos.x = c_positions[fCurrentLocation]; //fCurrentLocation-- || --fCurrentLocation
+                    }
                     c_CharacterMovement.CrossFade("LeanLeft", 0.3f);
                     Debug.Log("Left");
                 }
                 fRot = 0;
             }
 
-            if(isRight || isLeft)
+            if (isRight || isLeft)
             {
                 gameObject.transform.localPosition = Vector3.Lerp(gameObject.transform.localPosition, v3FuturePos, fRot);
             }
