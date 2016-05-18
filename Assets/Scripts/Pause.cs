@@ -1,6 +1,7 @@
 ﻿/// <summary>
 /// viewed: http://answers.unity3d.com/questions/25535/android-back-button-event.html
 /// http://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationPause.html
+/// http://www.alanzucconi.com/2016/03/23/scene-management-unity-5/#part5
 /// </summary>
 
 using UnityEngine;
@@ -33,7 +34,6 @@ public class Pause : MonoBehaviour
         else
         {
             UnPause();
-            //TODO: SceneManager.LoadScene(Application.loadedLevel);
         }
     }
 
@@ -47,6 +47,13 @@ public class Pause : MonoBehaviour
         c_PausePanel.SetActive(false);
         Time.timeScale = 1;
     }
+
+	//Old method: SceneManager.LoadScene(Application.loadedLevel);
+	// Reloads the current level to play again.
+	public void ReplayGame()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
 
     public void ReturnToMenu()
     {
