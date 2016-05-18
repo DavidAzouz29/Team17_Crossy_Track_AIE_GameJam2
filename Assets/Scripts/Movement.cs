@@ -32,7 +32,7 @@ public class Movement : MonoBehaviour
     private float swipeStartTime;
     private Vector2 startPos;
     private bool couldBeSwipe;
-    private float minSwipeDist = 10;
+    private float minSwipeDist = 1;
     private float maxSwipeTime = 0.3f;
 
     // -----------------------------------
@@ -83,8 +83,8 @@ public class Movement : MonoBehaviour
                         break;
 
                     case TouchPhase.Stationary:
-                        couldBeSwipe = false;
-                        continue;
+                        //couldBeSwipe = false;
+                        //continue;
                     case TouchPhase.Moved:
                         hasTouch = true;
                         touchBegan = false;
