@@ -5,12 +5,8 @@ using System.Collections;
 public class Score : MonoBehaviour
 {
     public Text r_text;
+	[System.NonSerialized]
     public float fTimePassed;
-    // Use this for initialization
-    void Start ()
-    {
-	
-	}
 	
 	// Update is called once per frame
 	void Update ()

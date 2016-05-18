@@ -3,16 +3,6 @@ using System.Collections;
 
 public class goRight : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	void OnTriggerEnter(Collider other)
 	{
 		//checks if the train is supposed to change tracks

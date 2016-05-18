@@ -35,11 +35,9 @@ public class TrainManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        // if the level is higher than 2
- 	
-
-		if (timeBetweenTrains > 0.5f) {
-			timeBetweenTrains = 1.0f - c_Score.GetComponent<Score> ().fTimePassed / 200;
+		// Makes the trains get slowly faster.
+		if (timeBetweenTrains > 0.4f) {
+			timeBetweenTrains = 1.0f - c_Score.GetComponent<Score> ().fTimePassed / 75;
 		}
         currentTime += Time.deltaTime;
         //if the current time is higher than the time set between trains.

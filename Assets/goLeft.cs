@@ -1,18 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class goLeft : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-
-	}
-
-	// Update is called once per frame
-	void Update () {
-
-	}
-
+public class goLeft : MonoBehaviour 
+{
 	void OnTriggerEnter(Collider other)
 	{
 		//checks if the train is supposed to change tracks

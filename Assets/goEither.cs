@@ -3,17 +3,6 @@ using System.Collections;
 
 public class goEither : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-
-
-	}
 	void OnTriggerEnter(Collider other)
 	{
 		//checks if the train is supposed to change tracks
@@ -21,7 +10,7 @@ public class goEither : MonoBehaviour {
 		{
 			Random.seed += (int)Time.deltaTime;
 			int toChange = Random.Range (0, 2);
-			Debug.Log (toChange);
+			//decides which way to go
 			if (toChange == 0) {
 				
 				other.transform.Rotate (0, Mathf.Lerp (0, -25, 3), 0);

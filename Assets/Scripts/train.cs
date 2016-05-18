@@ -4,7 +4,7 @@
 ///Date Created: 16/5/16
 ///Date Modified:
 ///----------------------------------------------------------------
-/// Brief: This code tells the trains how to behave.
+/// Brief: This code tells the trains how to behave. They are spawned by the train manager
 /// Viewed: http://docs.unity3d.com/ScriptReference/MonoBehaviour.Invoke.html
 ///         http://docs.unity3d.com/ScriptReference/Handheld.Vibrate.html
 /// </summary>
@@ -15,9 +15,7 @@ using System.Collections;
 
 public class train : MonoBehaviour {
     public bool change;
-    int track;
     public float speed;
-    public GameObject Engine;
     public GameObject main;
     // Use this for initialization
     void Start ()
@@ -28,15 +26,10 @@ public class train : MonoBehaviour {
 		int toChange = Random.Range (0, 100);
 		if (toChange < 30) {
 			change = true;
-		} 
+		}
         main = GameObject.FindGameObjectWithTag("MainCamera");
 	}
-
-	public void create(int a_track, bool a_change)
-    {
-        change = a_change;
-        track = a_track;
-    }
+		
 
 	// Update is called once per frame
 	void Update () {
