@@ -14,7 +14,7 @@ using UnityEngine;
 using System.Collections;
 
 public class train : MonoBehaviour {
-    bool change;
+    public bool change;
     int track;
     public float speed;
     public GameObject Engine;
@@ -22,6 +22,13 @@ public class train : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+		change = false;
+
+		Random.seed += (int)Time.deltaTime;
+		int toChange = Random.Range (0, 100);
+		if (toChange < 30) {
+			change = true;
+		} 
         main = GameObject.FindGameObjectWithTag("MainCamera");
 	}
 
@@ -33,7 +40,6 @@ public class train : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("Update one2");
         // just moves the train forward
         gameObject.transform.Translate(Vector3.back * speed * Time.deltaTime);
 

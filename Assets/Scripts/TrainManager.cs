@@ -21,6 +21,7 @@ public class TrainManager : MonoBehaviour {
     public GameObject baseTrain;
     public GameObject warningSign;
     public Sprite c_WarningSign;
+	public GameObject c_Score;
     // Use this for initialization
     void Start () {
         t1 = false;
@@ -29,23 +30,23 @@ public class TrainManager : MonoBehaviour {
 
         t4 = true;
         t5 = true;
-		currentTime = timeBetweenTrains - 0.1f;
-        Debug.Log("Point one");
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
         // if the level is higher than 2
-        Debug.Log("Update one");
+ 	
 
-
+		if (timeBetweenTrains > 0.5f) {
+			timeBetweenTrains = 1.0f - c_Score.GetComponent<Score> ().fTimePassed / 200;
+		}
         currentTime += Time.deltaTime;
         //if the current time is higher than the time set between trains.
         if (currentTime>timeBetweenTrains)
         {
             int nextTrainsTrack = Random.Range(1, numberOfActiveTracks+1);
             currentTime = 0.0f;
-            Debug.Log(nextTrainsTrack);
             StartCoroutine(warning(nextTrainsTrack));
             
         }
@@ -58,16 +59,14 @@ public class TrainManager : MonoBehaviour {
             //instantiate warning --TODO
             warningSign.SetActive(true);
             //c_WarningSign
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0);
             
             
         }
 
-        Vector3 trainPos = new Vector3(-2.9f+8.71f * nextTrainsTrack, 0, 280);
-        Debug.Log(trainPos);
+        Vector3 trainPos = new Vector3(-16.5f+8.71f * nextTrainsTrack, 0, 280);
         Quaternion Rotation = new Quaternion(0, 0, 0, 0);
         Instantiate(baseTrain, trainPos, Rotation);
-        Debug.Log("We got here");
         yield break;
     }
 }

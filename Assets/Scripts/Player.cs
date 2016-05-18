@@ -29,31 +29,13 @@ public class Player : MonoBehaviour
     public Button c_PauseButton;
     public AudioSource c_DeathSound;
 
-    //TODO: test Death
-    void Update()
-    {
-        Invoke("Death", 3);
-    }
-
-    void OnGUI()
-    {
-        // Test vibration
-//        if (GUI.Button(new Rect(0, 50, 1000, 320), "Vibrate!"))
-//        {
-//            Handheld.Vibrate();
-//        }
-        //TODO: remove once testing is complete
-        /*if (GUI.Button(new Rect(0, Screen.height - 50, 100, 32), "Die"))
-        {
-            Death();
-        } */
-    }
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Train")
         {
             Debug.Log("Player: BANG!");
             Death();
+
         }
     }
     // What happens when the player dies/ gets hit by a train
@@ -75,5 +57,4 @@ public class Player : MonoBehaviour
         c_PauseButton.interactable = false;
         Time.timeScale = 0;
     }
-
 }
