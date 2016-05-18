@@ -22,7 +22,9 @@ public class Movement : MonoBehaviour
     public GameObject c_Position2;
     public GameObject c_Position3;
 
-    float[] c_positions;
+    private const int iTrackNumer = 3; 
+
+    public float[] c_positions = new float[iTrackNumer];
     public int fCurrentLocation = 1; // Zero based from our three locations
 
     // PRIVATE VARIABLES
@@ -32,7 +34,6 @@ public class Movement : MonoBehaviour
     private float minSwipeDist = 10;
     private float maxSwipeTime = 0.3f;
     
-
     // -----------------------------------
     // Touch Swipe Controls
     // -----------------------------------
@@ -55,6 +56,7 @@ public class Movement : MonoBehaviour
         c_positions[0] = c_Position1.transform.position.x;
         c_positions[1] = c_Position2.transform.position.x;
         c_positions[2] = c_Position3.transform.position.x;
+        Time.timeScale = 1; // this is for when we return from game over.
     }
 
     IEnumerator CheckHorizontalSwipes() //Coroutine, which gets Started in "Start()" and runs over the whole game to check for swipes
